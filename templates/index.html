@@ -5,35 +5,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
+      href="{{ url_for('static', filename='css/styles.css') }}"
     />
-    <title>Brain Tumor Prediction</title>
+    <title>Tumor App</title>
   </head>
-  <body>
-    <div class="container mt-5">
-      <h1 class="mb-4">Brain Tumor Prediction</h1>
-      <form method="POST" enctype="multipart/form-data">
-        <!-- Add a hidden input field to hold the selected file -->
-        <input type="file" name="file" id="fileInput" style="display: none" />
-        <button type="button" class="btn btn-primary" onclick="selectFile()">
-          Select File
-        </button>
-        <button type="submit" class="btn btn-primary">Predict</button>
-      </form>
-      {% if result %}
-      <div class="mt-4">
-        <h3>Prediction Result:</h3>
-        <p>Class: {{ result[0] }}</p>
-        <p>Percentage: {{ result[1] }}%</p>
-        <img src="{{ result[2] }}" class="img-fluid" alt="MRI Image" />
+  <body style="background: linear-gradient(180deg, #0a8747 0%, #007f3e 100%)">
+    <div class="container">
+      <h1>Brain Tumor Prediction Application</h1>
+      <div class="content">
+        <p>
+          This web application uses a machine learning model to predict brain
+          tumors from MRI images. It provides a quick and convenient way to
+          assist medical professionals in diagnosing brain tumors.
+        </p>
       </div>
-      {% endif %}
+      <div class="content"  style="text-align: left;">
+        <p>
+            To make a prediction, follow these steps:
+            <ol>
+                <li>Select an MRI image of the brain (in .jpg, .jpeg, or .png format).</li>
+                <li>Click the "Upload & Predict" button to submit the image.</li>
+                <li>Wait for the prediction results to be displayed.</li>
+            </ol>
+        </p>
     </div>
-    <!-- JavaScript to trigger file input click -->
+      <form action="/predict" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*" />
+        <button type="submit">Upload & Predict</button>
+      </form>
+      <div id="result" style="display: none">
+        <h2>Analysis Result</h2>
+        <p id="analysis_result"></p>
+        <h2>Match Percentage</h2>
+        <p id="match_percentage"></p>
+        <button id="reset-button" type="button">Reset</button>
+      </div>
+      <div id="loading" style="display: none;">
+        <p>Loading...</p>
+        <div class="loader"></div>
+      </div>
+    </div>
     <script>
-      function selectFile() {
-        document.getElementById("fileInput").click();
-      }
+      document.querySelector("form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+
+        // Show loading indicator
+        document.getElementById('loading').style.display = 'block';
+
+        const response = await fetch("/predict", {
+          method: "POST",
+          body: formData,
+        });
+
+        // Hide loading indicator
+        document.getElementById('loading').style.display = 'none';
+
+        const data = await response.json();
+        const analysisResultElement = document.getElementById('analysis_result');
+        analysisResultElement.textContent = data.analysis_result;
+
+        // Toggle text color based on condition
+        if (data.analysis_result === 'Tumor Detected') {
+            analysisResultElement.style.color = 'red';
+        } else {
+            analysisResultElement.style.color = 'green';
+        }
+        document.getElementById(
+          "match_percentage"
+        ).textContent = `${data.match_percentage}%`;
+        document.getElementById("result").style.display = "block";
+      });
+
+      // Reset button click handler
+      document.getElementById('reset-button').addEventListener('click', () => {
+        document.getElementById('result').style.display = 'none';
+        document.querySelector('form').reset();
+      });
     </script>
   </body>
 </html>
