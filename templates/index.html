@@ -1,31 +1,39 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Model Inference</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body style="background: linear-gradient(to bottom, #007bff, #0041c2); color: white; text-align: center;">
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <title>Brain Tumor Prediction</title>
+  </head>
+  <body>
     <div class="container mt-5">
-        <h1>Model Inference</h1>
-        <form method="POST" enctype="multipart/form-data">
-            <div class="form-group">
-                <input type="file" name="file" accept=".jpg, .jpeg, .png" class="form-control-file">
-            </div>
-            <button type="submit" class="btn btn-primary">Upload and Predict</button>
-        </form>
-        {% if error %}
-            <div class="alert alert-danger mt-3">{{ error }}</div>
-        {% endif %}
-        {% if predictions %}
-            <div class="alert alert-success mt-3">
-                <h4>Predictions:</h4>
-                <ul>
-                    {% for prediction in predictions %}
-                        <li>{{ prediction }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endif %}
+      <h1 class="mb-4">Brain Tumor Prediction</h1>
+      <form method="POST" enctype="multipart/form-data">
+        <!-- Add a hidden input field to hold the selected file -->
+        <input type="file" name="file" id="fileInput" style="display: none" />
+        <button type="button" class="btn btn-primary" onclick="selectFile()">
+          Select File
+        </button>
+        <button type="submit" class="btn btn-primary">Predict</button>
+      </form>
+      {% if result %}
+      <div class="mt-4">
+        <h3>Prediction Result:</h3>
+        <p>Class: {{ result[0] }}</p>
+        <p>Percentage: {{ result[1] }}%</p>
+        <img src="{{ result[2] }}" class="img-fluid" alt="MRI Image" />
+      </div>
+      {% endif %}
     </div>
-</body>
+    <!-- JavaScript to trigger file input click -->
+    <script>
+      function selectFile() {
+        document.getElementById("fileInput").click();
+      }
+    </script>
+  </body>
 </html>

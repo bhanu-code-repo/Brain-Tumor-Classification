@@ -1,0 +1,80 @@
+/* Apply a dark green gradient background */
+body {
+  background: linear-gradient(180deg, #0a8747 0%, #007f3e 100%);
+  font-family: Arial, sans-serif;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+/* Style the container for content */
+.container {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  margin: 20px auto;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  max-width: 800px;
+  text-align: center;
+}
+
+/* Style headings */
+h1 {
+  color: #007f3e;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+h2 {
+  color: #007f3e;
+  font-size: 20px;
+  margin-top: 20px;
+}
+
+h3 {
+  color: blue;
+  font-size: 20px;
+  margin-top: 20px;
+}
+
+/* Style file input */
+input[type="file"] {
+  display: none;
+}
+
+/* Style the upload button */
+label.upload-btn {
+  display: inline-block;
+  background-color: #007f3e;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+label.upload-btn:hover {
+  background-color: #0a8747;
+}
+
+/* Style uploaded image */
+img.uploaded-img {
+  max-width: 100%;
+  margin-top: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Style prediction results */
+p {
+  font-size: 18px;
+  margin-top: 20px;
+  color: blue;
+}
+
+/* Style error messages */
+p.error-msg {
+  color: #ff0000;
+  font-weight: bold;
+  margin-top: 10px;
+}

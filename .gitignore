@@ -159,4 +159,9 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-Data/
+data/
+brain_tumor/
+model_data/
+image_test/
+models/
+uploads/
